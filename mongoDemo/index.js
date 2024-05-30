@@ -7,11 +7,20 @@ mongoose
 
 //Document schema
 const courseSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 255,
+  },
   author: String,
   tags: [String],
   data: { type: Date, default: Date.now },
   isPublished: Boolean,
+  // price : {
+  //   type : Number,
+  //   required : function(){return this.isPublished},
+  // }
 });
 
 //returns a class
@@ -36,6 +45,9 @@ const Course = mongoose.model("Course", courseSchema);
     tags: ["node", "backend"],
     isPublished: true,
   });
+
+  result = await course.save();
+  console.log(result);
 
   result = await course.save();
   console.log(result);
