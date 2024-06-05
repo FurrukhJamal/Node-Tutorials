@@ -1,8 +1,8 @@
 {
-  "name": "project8mongoose",
+  "name": "mongorelationships",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,11 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "config": "^3.3.11",
     "debug": "^4.3.5",
     "express": "^4.19.2",
-    "joi": "^17.13.1",
-    "mongoose": "^8.4.0",
-    "morgan": "^1.10.0"
+    "mongoose": "^8.4.1"
   }
 }

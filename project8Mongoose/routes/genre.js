@@ -4,11 +4,6 @@ const Joi = require("joi");
 const debug = require("debug")("app:main");
 const mongoose = require("mongoose");
 
-mongoose
-  .connect("mongodb://localhost/project8Genre")
-  .then(() => console.log("connected to db"))
-  .catch((err) => console.log("could not connect to the server", err));
-
 const genreSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -123,3 +118,7 @@ function validateGenre(genre) {
 }
 
 module.exports = router;
+module.exports.genreSchema = genreSchema;
+module.exports.Genre = Genre;
+module.exports.validateGenre = validateGenre;
+// module.exports.debug = debug;
