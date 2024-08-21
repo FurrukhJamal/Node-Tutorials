@@ -8,3 +8,9 @@ emitter.on("testingEvents", ({ id, name }) => {
 
 //raising an event
 emitter.emit("testingEvents", { id: 42, name: "futtay" });
+
+emitter.on("logging", (arg) => {
+  console.log(`logging event hit, data : ${arg.data}`);
+});
+
+emitter.emit("logging", { data: "hello world" });

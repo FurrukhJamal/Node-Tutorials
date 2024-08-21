@@ -1,7 +1,7 @@
 // const express = require("express");
 //404 not found
 //400 bad request
-
+import config from "config";
 import express from "express";
 import Joi from "joi";
 import Another from "./Another.js";
@@ -55,6 +55,13 @@ app.use((req, res, next) => {
 });
 
 app.use(Another);
+
+//usage of config
+console.log(`Name of app via config file : ${config.get("name")}`);
+console.log(`mail server : ${config.get("mail.host")}`);
+console.log(
+  `password via environment variables ${config.get("mail.password")}`
+);
 
 const courses = [
   {

@@ -1,0 +1,43 @@
+[
+    {
+      "name": "Introduction to Programming",
+      "author": "John Doe",
+      "tags": ["programming", "beginner", "frontend", "backend"],
+      "date": "2024-01-01T00:00:00Z",
+      "isPublished": true,
+      "price" : "10.5"
+    },
+    {
+      "name": "Advanced Data Structures",
+      "author": "Jane Smith",
+      "tags": ["programming", "data structures", "backend"],
+      "date": "2024-01-15T00:00:00Z",
+      "isPublished": false,
+      "price" : "20.5"
+    },
+    {
+      "name": "Web Development Bootcamp",
+      "author": "Emily Johnson",
+      "tags": ["web development", "html", "css", "javascript", "frontend"],
+      "date": "2024-02-01T00:00:00Z",
+      "isPublished": true,
+      "price" : "30.5"
+    },
+    {
+      "name": "Machine Learning 101",
+      "author": "Michael Brown",
+      "tags": ["machine learning", "AI", "backend"],
+      "date": "2024-03-01T00:00:00Z",
+      "isPublished": true,
+      "price" : "50.5"
+    },
+    {
+      "name": "Database Management Systems",
+      "author": "Chris Lee",
+      "tags": ["databases", "SQL", "backend"],
+      "date": "2024-04-01T00:00:00Z",
+      "isPublished": false,
+      "price" : "5.5"
+    }
+  ]
+  
