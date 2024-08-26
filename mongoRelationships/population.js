@@ -45,7 +45,7 @@ async function createAuthor(name, bio, website) {
 }
 
 async function listCourses() {
-  const courses = await Course.find().populate("author").select("name author");
+  const courses = await Course.find().populate("author", "name -_id").select("name author");
 
   //to get properties of author provide them as second argument to populate,
   //   and if u want to exclude them append name with - like
@@ -55,9 +55,9 @@ async function listCourses() {
 }
 
 (async () => {
-  //   createAuthor("Furrukh", "my bio", "www.website");
+    // createAuthor("Furrukh", "my bio", "www.website");
 
-  //   createCourse("Node Course", "665c806296a78cac313a49c8");
+    // createCourse("Node Course", "66cc7de1f8d6b2480ebbd2aa");
 
   listCourses();
 })();

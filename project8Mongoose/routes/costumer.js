@@ -1,27 +1,29 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
-const Joi = require("joi");
+// const Joi = require("joi");
 // const { debug } = require("./genre");
 const debug = require("debug")("app:customer");
 
+const {Customer, validate}= require("../models/customer")
+
 debug("DEBUG env var in customers ", process.env.DEBUG);
 console.log("DEBUG env var in customers produced via c.log", process.env.DEBUG);
-const customerSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 255,
-  },
-  phone: String,
-  isGold: {
-    type: Boolean,
-    default: false,
-  },
-});
+// const customerSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//     minlength: 5,
+//     maxlength: 255,
+//   },
+//   phone: String,
+//   isGold: {
+//     type: Boolean,
+//     default: false,
+//   },
+// });
 
-const Customer = mongoose.model("customer", customerSchema);
+// const Customer = mongoose.model("customer", customerSchema);
 //adding a middleware
 router.use(express.json());
 
@@ -87,16 +89,16 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-function validate(customer) {
-  const schema = Joi.object({
-    name: Joi.string().min(5).required(),
-    phone: Joi.string(),
-    isGold: Joi.boolean(),
-  });
+// function validate(customer) {
+//   const schema = Joi.object({
+//     name: Joi.string().min(5).required(),
+//     phone: Joi.string(),
+//     isGold: Joi.boolean(),
+//   });
 
-  let result = schema.validate(customer);
-  debug("result in Post end point '/': ", result.error);
-  return result;
-}
+//   let result = schema.validate(customer);
+//   debug("result in Post end point '/': ", result.error);
+//   return result;
+// }
 
 module.exports = router;

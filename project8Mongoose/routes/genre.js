@@ -2,19 +2,22 @@ const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
 const debug = require("debug")("app:main");
-const mongoose = require("mongoose");
 
-const genreSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 255,
-  },
-});
+const{Genre, validate, genreSchema} = require("../models/genre") 
 
-//getting the class
-const Genre = mongoose.model("Genre", genreSchema);
+// const mongoose = require("mongoose");
+
+// const genreSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//     minlength: 3,
+//     maxlength: 255,
+//   },
+// });
+
+// //getting the class
+// const Genre = mongoose.model("Genre", genreSchema);
 
 //adding to db
 const genreNames = ["Horror", "Romantic", "Action"];
@@ -40,7 +43,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { error } = validateGenre(req.body);
+  const { error } = validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
@@ -61,7 +64,7 @@ router.put("/:id", (req, res) => {
     if (!genre)
       return res.status(404).send("the genre with the given id does not exist");
 
-    const { error } = validateGenre(req.body);
+    const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     genre.set({
@@ -107,18 +110,18 @@ router.delete("/:id", (req, res) => {
   })();
 });
 
-function validateGenre(genre) {
-  const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-  });
+// function validateGenre(genre) {
+//   const schema = Joi.object({
+//     name: Joi.string().min(3).required(),
+//   });
 
-  let result = schema.validate(genre);
-  debug("validation result: ", result);
-  return result;
-}
+//   let result = schema.validate(genre);
+//   debug("validation result: ", result);
+//   return result;
+// }
 
 module.exports = router;
 module.exports.genreSchema = genreSchema;
 module.exports.Genre = Genre;
-module.exports.validateGenre = validateGenre;
+module.exports.validateGenre = validate;
 // module.exports.debug = debug;
