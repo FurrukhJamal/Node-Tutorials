@@ -4,24 +4,25 @@ const router = express.Router();
 const Joi = require("joi");
 const debug = require("debug")("app:movies");
 const { genreSchema, Genre } = require("./genre");
+const {Movie} = require("../models/movie")
 
-const moviesSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    minlength: 6,
-    maxlength: 255,
-    required: true,
-    trim: true,
-  },
-  genre: {
-    type: genreSchema,
-    required: true,
-  },
-  numberInStock: Number,
-  dailyRentalRate: Number,
-});
+// const moviesSchema = new mongoose.Schema({
+//   title: {
+//     type: String,
+//     minlength: 6,
+//     maxlength: 255,
+//     required: true,
+//     trim: true,
+//   },
+//   genre: {
+//     type: genreSchema,
+//     required: true,
+//   },
+//   numberInStock: Number,
+//   dailyRentalRate: Number,
+// });
 
-const Movie = mongoose.model("movie", moviesSchema);
+// const Movie = mongoose.model("movie", moviesSchema);
 
 router.get("/", async (req, res) => {
   const movies = await Movie.find();
