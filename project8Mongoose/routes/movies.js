@@ -4,7 +4,7 @@ const router = express.Router();
 const Joi = require("joi");
 const debug = require("debug")("app:movies");
 const { genreSchema, Genre } = require("./genre");
-const {Movie} = require("../models/movie")
+const { Movie } = require("../models/movie");
 
 // const moviesSchema = new mongoose.Schema({
 //   title: {
