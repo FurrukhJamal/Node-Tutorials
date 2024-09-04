@@ -36,11 +36,45 @@ const genreNames = ["Horror", "Romantic", "Action"];
 
 router.use(express.json());
 
-router.get("/", (req, res) => {
-  (async () => {
-    let genres = await Genre.find();
-    res.send(genres);
-  })();
+/**A custom middleware example to show how to avoid adding a try catch in every route by having it in 
+ * one place, example is in get request below
+ */
+
+function asyncMiddleware(handler){
+  return async(req,res,next) =>{
+      try{
+        await handler(req,res)  
+      } catch (error)
+      {
+        next(error)
+      }
+  }
+      
+ 
+
+}
+
+// router.get("/", asyncMiddleware(async(req, res ) => {     //adding next to log errors
+//   let genres = await Genre.find();
+//   res.send(genres);  
+// }));
+
+
+
+router.get("/", async(req, res, next ) => {     //adding next to log errors
+  // throw new Error("Manually generated error")  
+  try {
+      let genres = await Genre.find();
+      res.send(genres);  
+    } 
+    catch (error)
+    {
+      //we would have to log the exception here
+      //res.status(500).send("Something went wrong")
+      //error would be available as first argument in the custom middleware
+      next(error)
+    }
+  
 });
 
 router.post("/", auth, (req, res) => {
