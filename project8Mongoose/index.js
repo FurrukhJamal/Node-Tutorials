@@ -34,6 +34,8 @@ const logger = winston.createLogger({
 process.on("uncaughtException", (ex)=>{
   console.log("UNCAUGHT EXCEPTION")
   logger.error(ex.message, ex)
+    //best practice is top stop the process and restart it using process managers
+  process.exit(1)
 })
 
 // throw new Error("Something went wrong in startup")
@@ -43,6 +45,8 @@ process.on("uncaughtException", (ex)=>{
 process.on("unhandledRejection", (ex)=>{
   console.log("WE GOT an UNhandled Rejection")
   logger.error(ex.message, ex)
+  //best practice is top stop the process and restart it using process managers
+  process.exit(1)
 })
 
 const p = Promise.reject(new Error("Async promise rejection"))
