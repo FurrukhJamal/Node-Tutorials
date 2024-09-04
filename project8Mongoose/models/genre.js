@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const debug = require("debug")("app:main")
+const Joi = require("joi")
 
 const genreSchema = new mongoose.Schema({
     name: {

@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
 const debug = require("debug")("app:main");
-
+const auth = require("../middleware/auth")
+const admin = require("../middleware/admin")
 const{Genre, validate, genreSchema} = require("../models/genre") 
 
 // const mongoose = require("mongoose");
@@ -42,7 +43,7 @@ router.get("/", (req, res) => {
   })();
 });
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   const { error } = validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
@@ -88,7 +89,7 @@ router.get("/:id", (req, res) => {
   })();
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", [auth, admin], (req, res) => {
   (async () => {
     // let result = await Genre.deleteOne({ _id: req.params.id });
     // if (!result) {
