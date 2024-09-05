@@ -17,7 +17,7 @@ router.get("/me", auth, async(req, res)=>{
   res.send(user)
 })
 
-
+//a register user route
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {

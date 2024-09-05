@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken")
 const config = require("config")
 
 // router.use(express.json());
-
+// a login route
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
