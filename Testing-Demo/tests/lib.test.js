@@ -113,6 +113,21 @@ describe("applyDiscount", () => {
 const mail = require("../mail");
 describe("notifyCustomer", () => {
   it("should send an email to the customer", () => {
+    // //jest way of creating mock functions
+    // const mockFunction = jest.fn()
+    // //setting the mockfunction to return 1
+    // // mockFunction.mockReturnValue(1)
+
+    // //setting a mock to return a promise
+    // mockFunction.mockResolveValue(1)
+    // const result = await mockFunction()
+
+    // // if you want to simulate an error
+    // mockFunction.mockRejectedValue(new Error("..."))
+    // //you add this in a try catch and in catch block the given error should be there
+    // const result2 = await mockFunction()
+    // //END jest mocks
+
     db.getCustomerSync = function (customerId) {
       return { email: "a" };
     };
@@ -124,5 +139,18 @@ describe("notifyCustomer", () => {
 
     lib.notifyCustomer({ customerid: 1 });
     expect(mailSent).toBe(true);
+  });
+});
+
+describe("notifyCustomer using jest", () => {
+  it("should send an email to the customer", () => {
+    db.getCustomerSync = jest.fn().mockReturnValue({ email: "a" });
+    mail.send = jest.fn();
+
+    lib.notifyCustomer({ customerid: 1 });
+    expect(mail.send).toHaveBeenCalled(); //for with arguments toHaveBeenCalledWith()
+    //first call's 1st and second argument
+    expect(mail.send.mock.calls[0][0]).toBe("a");
+    expect(mail.send.mock.calls[0][1]).toMatch(/order/);
   });
 });
