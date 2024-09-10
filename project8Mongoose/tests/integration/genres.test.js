@@ -22,7 +22,7 @@ describe("/api/genres", ()=>{
     describe("GET /", ()=>{
         test("it should return all genres", async()=>{
             /**Bug fix */
-            const test = delay(()=>{}, 1000)
+            const test = delay(()=>{}, 2000)
             test.close()
             /**END */
             
@@ -151,4 +151,48 @@ describe("/api/genres", ()=>{
 
     })
     
+    describe("DELETE /:id", ()=>{
+        let user;
+        let token;
+        let genre;
+        let id;
+        
+        beforeEach(async()=>{
+            const userPayload = {name : "user1", isAdmin : false}
+            user = new User(userPayload)
+            // await user.save()
+            
+            token = user.generateAuthToken()
+            genre = new Genre({name : "genre1"})
+            await genre.save()
+            id = genre.id
+        })
+
+        afterEach(async()=>{
+            await User.deleteMany({})
+            await Genre.deleteMany({})
+        })
+        
+        const execute = ()=>{
+            return  request(server)
+                .delete("/api/genres/" + id)
+                .set("x-auth-token", token)
+                
+        }
+        
+        it("should return a 403 if the user is authenticated but not authorized", async()=>{
+            const res = await execute()
+            expect(res.status).toBe(403)
+
+        })
+
+        it("should return a 404 if user is authenticated and authorized but invalid genre id", async()=>{
+            user.isAdmin = true
+            token = user.generateAuthToken()
+            id = new mongoose.Types.ObjectId()
+
+            const res = await execute()
+            expect(res.status).toBe(404)
+        })
+    })
 })

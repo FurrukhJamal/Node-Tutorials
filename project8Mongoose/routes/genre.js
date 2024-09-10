@@ -130,26 +130,27 @@ router.get("/:id", validateObjectId,  (req, res) => {
   })();
 });
 
-router.delete("/:id", [auth, admin], (req, res) => {
-  (async () => {
-    // let result = await Genre.deleteOne({ _id: req.params.id });
-    // if (!result) {
-    //   return res.status(404).send("No such id of genre");
-    // }
-    // debug("result is ", result);
-    // if (result.deletedCount == 1) {
-    //   res.send({ deleted: true });
-    // } else {
-    //   res.status(404).send({ error: "resource does not exist" });
-    // }
+router.delete("/:id", [auth, admin], async(req, res) => {
+  
+  // let result = await Genre.deleteOne({ _id: req.params.id });
+  // if (!result) {
+  //   return res.status(404).send("No such id of genre");
+  // }
+  // debug("result is ", result);
+  // if (result.deletedCount == 1) {
+  //   res.send({ deleted: true });
+  // } else {
+  //   res.status(404).send({ error: "resource does not exist" });
+  // }
 
-    let genre = await Genre.findByIdAndDelete(req.params.id);
-    if (genre) {
-      res.send({ deleted: true });
-    } else {
-      res.status(404).send({ error: "resource does not exist" });
-    }
-  })();
+  // console.log("id in delete is:", req.params.id)
+  let genre = await Genre.findByIdAndDelete(req.params.id);
+  if (genre) {
+    res.send({ deleted: true });
+  } else {
+    res.status(404).send({ error: "resource does not exist" });
+  }
+  
 });
 
 // function validateGenre(genre) {
