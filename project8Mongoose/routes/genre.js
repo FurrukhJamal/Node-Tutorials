@@ -4,7 +4,9 @@ const Joi = require("joi");
 const debug = require("debug")("app:main");
 const auth = require("../middleware/auth")
 const admin = require("../middleware/admin")
-const{Genre, validate, genreSchema} = require("../models/genre") 
+const{Genre, validate, genreSchema} = require("../models/genre"); 
+const { default: mongoose } = require("mongoose");
+const validateObjectId = require("../middleware/validateObjectId")
 
 // const mongoose = require("mongoose");
 
@@ -23,16 +25,16 @@ const{Genre, validate, genreSchema} = require("../models/genre")
 //adding to db
 const genreNames = ["Horror", "Romantic", "Action"];
 
-(async () => {
-  for (let i = 0; i < genreNames.length; i++) {
-    let genre = new Genre({
-      name: genreNames[i],
-    });
+// (async () => {
+//   for (let i = 0; i < genreNames.length; i++) {
+//     let genre = new Genre({
+//       name: genreNames[i],
+//     });
 
-    let result = await genre.save();
-  }
-  debug("data uploaded to db");
-})();
+//     let result = await genre.save();
+//   }
+//   debug("data uploaded to db");
+// })();
 
 router.use(express.json());
 
@@ -113,8 +115,13 @@ router.put("/:id", (req, res) => {
   })();
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", validateObjectId,  (req, res) => {
   (async () => {
+    //transfering the logic to a middleware
+    // if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    //   return res.status(404).send("invalid id")
+    // }
+    
     const genre = await Genre.findById(req.params.id);
     if (!genre) {
       return res.status(404).send("No such id of genre");

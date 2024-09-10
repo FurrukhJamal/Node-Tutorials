@@ -4,6 +4,10 @@ const config = require("config");
 const mongoose = require("mongoose");
 
 describe("user.generateAuthToken", () => {
+  // afterAll(async()=>{
+  //   await mongoose.connection.close()
+  // })
+  
   it("should return a valid json web token", () => {
     const payload = {
       _id: new mongoose.Types.ObjectId().toHexString(),

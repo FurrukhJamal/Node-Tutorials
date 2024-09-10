@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --verbose --coverage"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "lodash": "^4.17.21",
     "mongoose": "^8.4.0",
     "morgan": "^1.10.0",
+    "supertest": "^7.0.0",
     "winston": "^3.14.2"
   },
   "devDependencies": {

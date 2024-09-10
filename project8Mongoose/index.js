@@ -26,7 +26,9 @@ console.log("DEBUG envoirment variable is ", process.env.DEBUG);
 
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}`));
+let server = app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // const port = process.env.PORT || 3000;
 // app.listen(port, () => logger.info(`Listening on port ${port}`));
+
+module.exports = server
