@@ -11,8 +11,9 @@ describe("/api/genres", ()=>{
     })
     afterEach(async()=>{
         //server.close()
-        await new Promise((resolve)=>server.close(resolve))
+        // await new Promise((resolve)=>server.close(resolve))
         await Genre.deleteMany({})
+        await server.close()
     })
 
     afterAll(async () => {
@@ -21,16 +22,23 @@ describe("/api/genres", ()=>{
 
     describe("GET /", ()=>{
         test("it should return all genres", async()=>{
+            
+            
+            // await Genre.collection.insertMany([
+            //     {name : "genre1"},
+            //     {name : "genre2"}
+            // ])
+
+            new Genre({name : "genre1"}).save()
+            new Genre({name : "genre2"}).save()
+
             /**Bug fix */
             const test = delay(()=>{}, 2000)
             test.close()
             /**END */
             
-            await Genre.collection.insertMany([
-                {name : "genre1"},
-                {name : "genre2"}
-            ])
             
+
             const res = await request(server).get("/api/genres")
             expect(res.status).toBe(200)
             expect(res.body.length).toBe(2)
@@ -193,6 +201,88 @@ describe("/api/genres", ()=>{
 
             const res = await execute()
             expect(res.status).toBe(404)
+        })
+
+        it("should return a 200 if user is authenticated and authorized and genre is deleted", async()=>{
+            user.isAdmin = true
+            token = user.generateAuthToken()
+
+            const res = await execute()
+            
+            expect(res.status).toBe(200)
+            genre = await Genre.find({name : "genre1"})
+            expect(genre).toHaveLength(0)
+        })
+    })
+
+
+    describe("PUT /:id", ()=>{
+        let user;
+        let token;
+        let genre;
+        let id;
+        let updatedGenre; 
+        
+        beforeEach(async()=>{
+            const userPayload = {name : "user1", isAdmin : false}
+            user = new User(userPayload)
+            // await user.save()
+            
+            token = user.generateAuthToken()
+            genre = new Genre({name : "genre1"})
+            await genre.save()
+            id = genre.id
+
+            updatedGenre = "genre400"
+        })
+
+        afterEach(async()=>{
+            await User.deleteMany({})
+            await Genre.deleteMany({})
+        })
+        
+        const execute = ()=>{
+            return  request(server)
+                .put("/api/genres/" + id)
+                .set("x-auth-token", token)
+                .send({name : updatedGenre})
+                
+        }
+        
+        it("should return a 403 if the user is authenticated but not authorized", async()=>{
+            const res = await execute()
+            expect(res.status).toBe(403)
+
+        })
+
+        it("should return a 404 if user is authenticated and authorized but invalid genre id", async()=>{
+            user.isAdmin = true
+            token = user.generateAuthToken()
+            id = new mongoose.Types.ObjectId()
+
+            const res = await execute()
+            expect(res.status).toBe(404)
+        })
+
+        it("should return a 200 if user is authenticated and authorized and genre is updated", async()=>{
+            user.isAdmin = true
+            token = user.generateAuthToken()
+
+            const res = await execute()
+            
+            expect(res.status).toBe(200)
+            genre = await Genre.findById(genre.id)
+            expect(genre).toMatchObject({name : "genre400"})
+        })
+
+        it("should return a 400 if user is authenticated, authorized but a invalid genre update of less than 3 char is send", async()=>{
+            updatedGenre = "12"
+            user.isAdmin = true
+            token = user.generateAuthToken()
+
+            const res = await execute()
+            
+            expect(res.status).toBe(400)
         })
     })
 })

@@ -6,6 +6,7 @@ const rentals = require("../routes/rentals");
 const users = require("../routes/users");
 const auth = require("../routes/auth");
 const errors = require("../middleware/errors")
+const returns = require("../routes/returns")
 
 module.exports = function(app){
     app.use(express.json())
@@ -15,6 +16,7 @@ app.use("/api/movies", movies);
 app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
+app.use("/api/returns", returns)
 
 //after all the middlewares one need to register an error middleware with an err argument
 // app.use(function(err, req, res, next){

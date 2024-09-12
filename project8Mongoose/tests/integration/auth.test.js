@@ -15,8 +15,11 @@ describe("Auth Middleware", ()=>{
     })
 
     afterEach(async()=>{
-        server.close()
         await Genre.deleteMany({})
+        await server.close()
+        // await new Promise((resolve)=>server.close(resolve))
+        
+        
     })
 
     // afterEach(async () => {

@@ -95,7 +95,7 @@ router.post("/", auth, (req, res) => {
   })();
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", [auth, admin], (req, res) => {
   (async () => {
     let genre = await Genre.findById(req.params.id);
     if (!genre)

@@ -46,6 +46,9 @@ const rentalsSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  dateReturned : {},
+  rentalFee : {}
+
 });
 
 const Rental = mongoose.model("Rental", rentalsSchema);
