@@ -51,6 +51,22 @@ const rentalsSchema = new mongoose.Schema({
 
 });
 
+// rentalsSchema.methods.returnFee = async function(){
+//     this.dateReturned = Date.now()
+//     // await rental.save()
+
+//     let difference = this.dateReturned - this.date
+//     // let differenceinMilliseconds = new Date(difference).getMilliseconds()
+//     //console.log("TIME DIFFERENCE in Days: ", difference/(24 * 60* 60 * 1000) )
+//     let daysRented = Math.floor(difference/(24 * 60* 60 * 1000))
+
+//     //calculating the rental fee and updating the stock
+//     let movie = await Movie.findOne({title : req.body.title})
+//     await Movie.updateOne({title : movie.title}, {$inc : {numberInStock : 1}})
+//     rental.rentalFee = movie.dailyRentalRate * daysRented
+    
+// }
+
 const Rental = mongoose.model("Rental", rentalsSchema);
 
 function validate(rental) {
